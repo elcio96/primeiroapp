@@ -1,75 +1,56 @@
 import 'package:flutter/material.dart';
+import './questao.dart';
+import './resposta.dart';
 
 main() => runApp(PerguntaApp());
 
-class PerguntaApp extends StatelessWidget {
-  void responder() {
-    print('Pergunta respondida!');
+class _PerguntaAppState extends State<PerguntaApp> {
+  var _perguntaSelecionada = 0;
+
+  void _responder() {
+    setState(() {
+      _perguntaSelecionada++;
+    });
+    print(_perguntaSelecionada);
   }
 
   @override
   Widget build(BuildContext context) {
     final perguntas = [
-      'Qual é a sua cor favorita?',
-      'Qual é o seu animal favorito?',
+      {
+        'texto': 'Qual é a sua cor favorita?',
+        'respostas': ['Preto', 'Vermelho', 'Azul', 'Branco'],
+      },
+      {
+        'texto': 'Qual é o seu animal favorito?',
+        'respostas': ['Coelho', 'Cobra', 'Elefante', 'Leão'],
+      },
+      {
+        'texto': 'Qual é o seu instrutor favorito?',
+        'respostas': ['Marcelo', 'Pedro', 'Leo', 'João'],
+      },
     ];
 
     return MaterialApp(
       home: Scaffold(
         appBar: AppBar(
-          title: Text('Perguntas'),
+          title: const Text('Perguntas'),
         ),
         body: Column(
           children: <Widget>[
-            Text(perguntas[0]),
-            TextButton(
-              style: TextButton.styleFrom(
-                  backgroundColor: Colors.blue,
-                  elevation: 15,
-                  shadowColor: Colors.purple),
-              child: Text(
-                'Resposta 1',
-                style: TextStyle(
-                  color: Colors.black,
-                ),
-              ),
-              onPressed: () {
-                print('Resposta 1!');
-              },
-            ),
-            TextButton(
-              style: TextButton.styleFrom(
-                  backgroundColor: Colors.blue,
-                  elevation: 15,
-                  shadowColor: Colors.purple),
-              child: Text(
-                'Resposta 2',
-                style: TextStyle(
-                  color: Colors.black,
-                ),
-              ),
-              onPressed: () {
-                print('Resposta 2!');
-              },
-            ),
-            TextButton(
-              style: TextButton.styleFrom(
-                  backgroundColor: Colors.blue,
-                  elevation: 15,
-                  shadowColor: Colors.purple),
-              child: Text(
-                'Resposta 3',
-                style: TextStyle(
-                  color: Colors.black,
-                ),
-              ),
-              onPressed: () {
-                print('Resposta 3!');
-              },
-            ),
+            Questao(perguntas[_perguntaSelecionada]['texto'].toString()),
+            Resposta('Resposta 1', _responder),
+            Resposta('Resposta 2', _responder),
+            Resposta('Resposta 3', _responder),
           ],
         ),
       ),
     );
+  }
+}
+
+class PerguntaApp extends StatefulWidget {
+  _PerguntaAppState createState() {
+    return _PerguntaAppState();
   }
 }
